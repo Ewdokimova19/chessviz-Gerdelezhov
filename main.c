@@ -1,38 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void restart(char board[9][9]) //подготовка поля к началу
-{
-    char figures[9] = "rnbqkbnr";
-    int x = 0, y = 0, i = 0;
-    for (y = 8; y >= 0; y--) { //столбец цифр
-
-        (board[y][0]) = ((8 - y) + '0');
-    }
-
-    for (x = 1; x < 9; x++) { //строка букв
-        (board[8][x]) = (x + 96);
-    }
-
-    for (y = 2; y < 6; y++) { //пустые клетки
-        for (x = 1; x < 9; x++) {
-            board[y][x] = 46;
-        }
-    }
-
-    for (x = 1; x < 9; x++) { //пешки
-        board[1][x] = 'p';
-        board[6][x] = 'P';
-    }
-
-    for (i = 0; i < 8; i++) { //остальные фигуры
-        board[0][i + 1] = figures[i];
-        board[7][i + 1] = figures[i] - 32;
-    }
-
-    board[8][0] = ' '; //левый нижний угол
-}
-
 void conclusion(char board[9][9]) //вывод поля
 {
     printf("\n");
@@ -51,19 +19,7 @@ void conclusion(char board[9][9]) //вывод поля
     }
 }
 
-/*void repeat_move(char input[7])
-{
-    printf("Ошибка: Вы вышли за пределы поля\nПовторите ход:");
-    scanf("%s", input);
-    if (input[0] == 'K' || input[0] == 'Q' || input[0] == 'R' || input[0] == 'N'
-        || input[0] == 'B') {
-        move_check(input, 1);
-    } else {
-        move_check(input, 0);
-    }
-}*/
-
-void move_check(char input[7], int move_format)
+void move_check(char input[7], int move_format) //проверка хода
 {
     int checker = 1;
     if (move_format == 1) {
@@ -100,9 +56,17 @@ void move_check(char input[7], int move_format)
 int main()
 {
     system("clear");
-    char board[9][9];
+    char board[9][9]
+            = {"8rnbqkbnr",
+               "7pppppppp",
+               "6........",
+               "5........",
+               "4........",
+               "3........",
+               "2PPPPPPPP",
+               "1RNBQKBNR",
+               " abcdefgh"};
     int counter = 0;
-    restart(board);
     conclusion(board);
     char input[7];
 
@@ -115,7 +79,7 @@ int main()
             || input[0] == 'N' || input[0] == 'B') {
             move_check(input, 1);
             if ((input[0] == board[(8 - (input[2] - '0'))][(input[1] - 96)])
-                || ((input[0] + 32) //проверка на фигуру
+                || ((input[0] + 32) //проверка на соответстие фигур
                     == board[(8 - (input[2] - '0'))][(input[1] - 96)])) {
                 board[(8 - (input[5] - '0'))][(input[4] - 96)]
                         = board[(8 - (input[2] - '0'))][(input[1] - 96)];
@@ -136,6 +100,5 @@ int main()
         counter++;
         scanf("%s", input);
     }
-
     return 0;
 }
