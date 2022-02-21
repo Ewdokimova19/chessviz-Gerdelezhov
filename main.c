@@ -76,7 +76,7 @@ void move_check(char input[7], char board[9][9])
         if (move_format == 1){
             if ((input[0] != board[(8 - (input[2] - '0'))][(input[1] - 96)])
                 || ((input[0] + 32)
-                    != board[(8 - (input[2] - '0'))][(input[1] - 96)])))
+                    != board[(8 - (input[2] - '0'))][(input[1] - 96)]))
                 {
                     status = 2;
                 }
