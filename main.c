@@ -19,43 +19,103 @@ void conclusion(char board[9][9]) //вывод поля
     }
 }
 
-void move_check(char input[7], int move_format) //проверка хода
+//функция позоляющая изменить (исправить) ход (ошибку в ходе)
+int repeat(int status, char input[7])
 {
-    int checker = 1;
-    if (move_format == 1) {
-        if ((8 - (input[2] - '0')) > 7 || (input[1] - 96) < 1
-            || (8 - (input[2] - '0')) < 0 || (input[1] - 96) > 9
-            || (8 - (input[5] - '0')) > 7 || (input[4] - 96) < 1
-            || (8 - (input[5] - '0')) < 0 || (input[4] - 96) > 9) {
-            checker = 0;
-        } else {
-            checker = 1;
-        }
-    } else {
-        if ((8 - (input[1] - '0')) > 7 || (input[0] - 96) < 1
-            || (8 - (input[1] - '0')) < 0 || (input[0] - 96) > 9
-            || (8 - (input[4] - '0')) > 7 || (input[3] - 96) < 1
-            || (8 - (input[4] - '0')) < 0 || (input[3] - 96) > 9) {
-            checker = 0;
-        } else {
-            checker = 1;
-        }
+    system("clear");
+    if (status == 1) {
+        printf("Ошибка: ");
+        printf("Вы вышли за пределы поля.");
+    } else if (status == 2) {
+        printf("Ошибка: ");
+        printf("Фигура не соответствует фaктической.");
+    } else if (status == 3) {
+        printf("Ошибка: ");
+        printf("Тип хода не соответствует фактическому.");
     }
-    if (checker == 0) {
-        printf("Ошибка: Вы вышли за пределы поля.\nПовторите ход: ");
+    if (status != 0) {
+        printf("\nПовторите ход: ");
         scanf("%s", input);
+    }
+    return (status);
+}
+
+//функция проверок хода
+void move_check(char input[7], char board[9][9])
+{
+    int checker = 999, status, move_format;
+
+    while (checker != 0) {
+        checker = 0;
+
         if (input[0] == 'K' || input[0] == 'Q' || input[0] == 'R'
             || input[0] == 'N' || input[0] == 'B') {
-            move_check(input, 1);
+            move_format = 1;
         } else {
-            move_check(input, 0);
+            move_format = 0;
         }
+
+        //проверка на выход за пределы поля
+        if (move_format == 1) {
+            if ((8 - (input[2] - '0')) > 7 || (input[1] - 96) < 1
+                || (8 - (input[2] - '0')) < 0 || (input[1] - 96) > 9
+                || (8 - (input[5] - '0')) > 7 || (input[4] - 96) < 1
+                || (8 - (input[5] - '0')) < 0 || (input[4] - 96) > 9) {
+                status = 1;
+            }
+        } else {
+            if ((8 - (input[1] - '0')) > 7 || (input[0] - 96) < 1
+                || (8 - (input[1] - '0')) < 0 || (input[0] - 96) > 9
+                || (8 - (input[4] - '0')) > 7 || (input[3] - 96) < 1
+                || (8 - (input[4] - '0')) < 0 || (input[3] - 96) > 9) {
+                status = 1;
+            }
+        }
+
+        //проверка на соответствие фигур
+        if (move_format == 1){
+            if ((input[0] != board[(8 - (input[2] - '0'))][(input[1] - 96)])
+                || ((input[0] + 32)
+                    != board[(8 - (input[2] - '0'))][(input[1] - 96)])))
+                {
+                    status = 2;
+                }
+        }
+
+        //проверки на соответствие хода
+        //взятие
+        if (move_format == 1) {
+            if ((input[3] == 'x')
+                && (board[(8 - (input[5] - '0'))][(input[4] - 96)] == '.')) {
+                status = 3;
+            }
+        } else {
+            if ((input[2] == 'x')
+                && (board[(8 - (input[4] - '0'))][(input[3] - 96)] == '.')) {
+                status = 3;
+            }
+        }
+
+        //тихий ход
+        if (move_format == 1) {
+            if ((input[3] == '-')
+                && (board[(8 - (input[5] - '0'))][(input[4] - 96)] != '.')) {
+                status = 3;
+            }
+        } else {
+            if ((input[2] == '-')
+                && (board[(8 - (input[4] - '0'))][(input[3] - 96)] != '.')) {
+                status = 3;
+            }
+        }
+
+        checker = repeat(status, input);
+        status = 0;
     }
 }
 
 int main()
 {
-    system("clear");
     char board[9][9]
             = {"8rnbqkbnr",
                "7pppppppp",
@@ -67,37 +127,36 @@ int main()
                "1RNBQKBNR",
                " abcdefgh"};
     int counter = 0;
-    conclusion(board);
     char input[7];
 
+    system("clear");
+    conclusion(board);
     printf("\nПервый ход белых (для выхода введите 'q'): ");
     scanf("%s", input);
     while (input[0] != 'q') {
+        move_check(input, board);
         system("clear");
         printf("Последний ход: %s\n", input);
         if (input[0] == 'K' || input[0] == 'Q' || input[0] == 'R'
             || input[0] == 'N' || input[0] == 'B') {
-            move_check(input, 1);
-            if ((input[0] == board[(8 - (input[2] - '0'))][(input[1] - 96)])
-                || ((input[0] + 32) //проверка на соответстие фигур
-                    == board[(8 - (input[2] - '0'))][(input[1] - 96)])) {
-                board[(8 - (input[5] - '0'))][(input[4] - 96)]
-                        = board[(8 - (input[2] - '0'))][(input[1] - 96)];
-                board[(8 - (input[2] - '0'))][(input[1] - 96)] = '.';
-            }
+            board[(8 - (input[5] - '0'))][(input[4] - 96)]
+                    = board[(8 - (input[2] - '0'))][(input[1] - 96)];
+            board[(8 - (input[2] - '0'))][(input[1] - 96)] = '.';
         } else {
-            move_check(input, 0);
             board[(8 - (input[4] - '0'))][(input[3] - 96)]
                     = board[(8 - (input[1] - '0'))][(input[0] - 96)];
             board[(8 - (input[1] - '0'))][(input[0] - 96)] = '.';
         }
+
         conclusion(board);
+
         if (counter % 2 != 0) {
             printf("\nХод белых: ");
         } else {
             printf("\nХод черных: ");
         }
         counter++;
+
         scanf("%s", input);
     }
     return 0;
