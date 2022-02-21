@@ -73,13 +73,12 @@ void move_check(char input[7], char board[9][9])
         }
 
         //проверка на соответствие фигур
-        if (move_format == 1){
+        if (move_format == 1) {
             if ((input[0] != board[(8 - (input[2] - '0'))][(input[1] - 96)])
                 || ((input[0] + 32)
-                    != board[(8 - (input[2] - '0'))][(input[1] - 96)]))
-                {
-                    status = 2;
-                }
+                    != board[(8 - (input[2] - '0'))][(input[1] - 96)])) {
+                status = 2;
+            }
         }
 
         //проверки на соответствие хода
@@ -109,7 +108,9 @@ void move_check(char input[7], char board[9][9])
             }
         }
 
-        checker = repeat(status, input);
+        if (checker != 0) {
+            checker = repeat(status, input);
+        }
         status = 0;
     }
 }
