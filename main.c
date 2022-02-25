@@ -44,6 +44,7 @@ int repeat(int status, char input[7])
 void move_check(char input[7], char board[9][9])
 {
     int checker = 999, status, move_format;
+    int number_of_lines = 8;
 
     while (checker != 0) {
         checker = 0;
@@ -57,26 +58,26 @@ void move_check(char input[7], char board[9][9])
 
         //проверка на выход за пределы поля
         if (move_format == 1) {
-            if ((8 - (input[2] - '0')) > 7 || (input[1] - 96) < 1
-                || (8 - (input[2] - '0')) < 0 || (input[1] - 96) > 9
-                || (8 - (input[5] - '0')) > 7 || (input[4] - 96) < 1
-                || (8 - (input[5] - '0')) < 0 || (input[4] - 96) > 9) {
+            if ((number_of_lines - (input[2] - '0')) > 7 || (input[1] - ('a' - 1)) < 1
+                || (number_of_lines - (input[2] - '0')) < 0 || (input[1] - ('a' - 1)) > 9
+                || (number_of_lines - (input[5] - '0')) > 7 || (input[4] - ('a' - 1)) < 1
+                || (number_of_lines - (input[5] - '0')) < 0 || (input[4] - ('a' - 1)) > 9) {
                 status = 1;
             }
         } else {
-            if ((8 - (input[1] - '0')) > 7 || (input[0] - 96) < 1
-                || (8 - (input[1] - '0')) < 0 || (input[0] - 96) > 9
-                || (8 - (input[4] - '0')) > 7 || (input[3] - 96) < 1
-                || (8 - (input[4] - '0')) < 0 || (input[3] - 96) > 9) {
+            if ((number_of_lines - (input[1] - '0')) > 7 || (input[0] - ('a' - 1)) < 1
+                || (number_of_lines - (input[1] - '0')) < 0 || (input[0] - ('a' - 1)) > 9
+                || (number_of_lines - (input[4] - '0')) > 7 || (input[3] - ('a' - 1)) < 1
+                || (number_of_lines - (input[4] - '0')) < 0 || (input[3] - ('a' - 1)) > 9) {
                 status = 1;
             }
         }
 
         //проверка на соответствие фигур
         if (move_format == 1) {
-            if ((input[0] != board[(8 - (input[2] - '0'))][(input[1] - 96)])
+            if ((input[0] != board[(number_of_lines - (input[2] - '0'))][(input[1] - ('a' - 1))])
                 || ((input[0] + 32)
-                    != board[(8 - (input[2] - '0'))][(input[1] - 96)])) {
+                    != board[(number_of_lines - (input[2] - '0'))][(input[1] - ('a' - 1))])) {
                 status = 2;
             }
         }
@@ -85,12 +86,12 @@ void move_check(char input[7], char board[9][9])
         //взятие
         if (move_format == 1) {
             if ((input[3] == 'x')
-                && (board[(8 - (input[5] - '0'))][(input[4] - 96)] == '.')) {
+                && (board[(number_of_lines - (input[5] - '0'))][(input[4] - ('a' - 1))] == '.')) {
                 status = 3;
             }
         } else {
             if ((input[2] == 'x')
-                && (board[(8 - (input[4] - '0'))][(input[3] - 96)] == '.')) {
+                && (board[(number_of_lines - (input[4] - '0'))][(input[3] - ('a' - 1))] == '.')) {
                 status = 3;
             }
         }
@@ -98,12 +99,12 @@ void move_check(char input[7], char board[9][9])
         //тихий ход
         if (move_format == 1) {
             if ((input[3] == '-')
-                && (board[(8 - (input[5] - '0'))][(input[4] - 96)] != '.')) {
+                && (board[(number_of_lines - (input[5] - '0'))][(input[4] - ('a' - 1))] != '.')) {
                 status = 3;
             }
         } else {
             if ((input[2] == '-')
-                && (board[(8 - (input[4] - '0'))][(input[3] - 96)] != '.')) {
+                && (board[(number_of_lines - (input[4] - '0'))][(input[3] - ('a' - 1))] != '.')) {
                 status = 3;
             }
         }
@@ -128,6 +129,7 @@ int main()
                "1RNBQKBNR",
                " abcdefgh"};
     int counter = 0;
+    int number_of_lines = 8;
     char input[7];
 
     system("clear");
@@ -140,13 +142,13 @@ int main()
         printf("Последний ход: %s\n", input);
         if (input[0] == 'K' || input[0] == 'Q' || input[0] == 'R'
             || input[0] == 'N' || input[0] == 'B') {
-            board[(8 - (input[5] - '0'))][(input[4] - 96)]
-                    = board[(8 - (input[2] - '0'))][(input[1] - 96)];
-            board[(8 - (input[2] - '0'))][(input[1] - 96)] = '.';
+            board[(number_of_lines - (input[5] - '0'))][(input[4] - ('a' - 1))]
+                    = board[(number_of_lines - (input[2] - '0'))][(input[1] - ('a' - 1))];
+            board[(number_of_lines - (input[2] - '0'))][(input[1] - ('a' - 1))] = '.';
         } else {
-            board[(8 - (input[4] - '0'))][(input[3] - 96)]
-                    = board[(8 - (input[1] - '0'))][(input[0] - 96)];
-            board[(8 - (input[1] - '0'))][(input[0] - 96)] = '.';
+            board[(number_of_lines - (input[4] - '0'))][(input[3] - ('a' - 1))]
+                    = board[(number_of_lines - (input[1] - '0'))][(input[0] - ('a' - 1))];
+            board[(number_of_lines - (input[1] - '0'))][(input[0] - ('a' - 1))] = '.';
         }
 
         conclusion(board);
