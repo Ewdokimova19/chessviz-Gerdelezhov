@@ -45,7 +45,7 @@ void move_check(char input[7], char board[9][9])
 {
     int checker = 999, status, move_format;
     int number_of_lines = 8;
-
+    int top_border = 0, bottom_border = 7, right_border = 9, left_border = 1;
     while (checker != 0) {
         checker = 0;
 
@@ -58,17 +58,17 @@ void move_check(char input[7], char board[9][9])
 
         //проверка на выход за пределы поля
         if (move_format == 1) {
-            if ((number_of_lines - (input[2] - '0')) > 7 || (input[1] - ('a' - 1)) < 1
-                || (number_of_lines - (input[2] - '0')) < 0 || (input[1] - ('a' - 1)) > 9
-                || (number_of_lines - (input[5] - '0')) > 7 || (input[4] - ('a' - 1)) < 1
-                || (number_of_lines - (input[5] - '0')) < 0 || (input[4] - ('a' - 1)) > 9) {
+            if ((number_of_lines - (input[2] - '0')) > bottom_border || (input[1] - ('a' - 1)) < left_border
+                || (number_of_lines - (input[2] - '0')) < top_border || (input[1] - ('a' - 1)) > right_border
+                || (number_of_lines - (input[5] - '0')) > bottom_border || (input[4] - ('a' - 1)) < left_border
+                || (number_of_lines - (input[5] - '0')) < top_border || (input[4] - ('a' - 1)) > right_border) {
                 status = 1;
             }
         } else {
-            if ((number_of_lines - (input[1] - '0')) > 7 || (input[0] - ('a' - 1)) < 1
-                || (number_of_lines - (input[1] - '0')) < 0 || (input[0] - ('a' - 1)) > 9
-                || (number_of_lines - (input[4] - '0')) > 7 || (input[3] - ('a' - 1)) < 1
-                || (number_of_lines - (input[4] - '0')) < 0 || (input[3] - ('a' - 1)) > 9) {
+            if ((number_of_lines - (input[1] - '0')) > bottom_border || (input[0] - ('a' - 1)) < left_border
+                || (number_of_lines - (input[1] - '0')) < top_border || (input[0] - ('a' - 1)) > right_border
+                || (number_of_lines - (input[4] - '0')) > bottom_border || (input[3] - ('a' - 1)) < left_border
+                || (number_of_lines - (input[4] - '0')) < top_border || (input[3] - ('a' - 1)) > right_border) {
                 status = 1;
             }
         }
@@ -83,7 +83,7 @@ void move_check(char input[7], char board[9][9])
         }
 
         //проверки на соответствие хода
-        //взятие
+        //взятиеright_border
         if (move_format == 1) {
             if ((input[3] == 'x')
                 && (board[(number_of_lines - (input[5] - '0'))][(input[4] - ('a' - 1))] == '.')) {
