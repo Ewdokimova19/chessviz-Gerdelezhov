@@ -1,4 +1,3 @@
-obj/src/chessviz/main.o: src/chessviz/main.c \
- /home/nothomepc/prog/Ztest/chessviz.h
+obj/src/chessviz/main.o: src/chessviz/main.c src/libchessviz/chessviz.h
 
-/home/nothomepc/prog/Ztest/chessviz.h:
+src/libchessviz/chessviz.h:
