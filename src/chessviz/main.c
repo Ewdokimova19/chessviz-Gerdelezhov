@@ -1,4 +1,4 @@
-#include </home/nothomepc/prog/Ztest/chessviz.h>
+#include <libchessviz/chessviz.h>
 #include <stdio.h>
 #include <stdlib.h>
 
